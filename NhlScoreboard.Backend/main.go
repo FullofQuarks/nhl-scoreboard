@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
@@ -49,8 +48,6 @@ func postConfig(c *gin.Context) {
 	if err := c.BindJSON(&newConfig); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Incorrectly formatted"})
 	}
-
-	fmt.Println(newConfig)
 
 	c.IndentedJSON(http.StatusCreated, newConfig)
 }
