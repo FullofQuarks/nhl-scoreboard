@@ -1,6 +1,7 @@
 {
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2019",
     "module": "esnext",
     "moduleResolution": "node",
     "noEmitOnError": true,
@@ -17,5 +18,6 @@
     "declaration": true,
     "incremental": true
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

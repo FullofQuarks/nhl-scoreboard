@@ -1,62 +1,46 @@
 {
-  "name": "nhl-scoreboard",
-  "description": "Webcomponent nhl-scoreboard following open-wc recommendations",
-  "license": "MIT",
-  "author": "nhl-scoreboard",
-  "version": "0.0.0",
-  "main": "dist/src/index.js",
-  "module": "dist/src/index.js",
-  "exports": {
-    ".": "./dist/src/index.js",
-    "./nhl-scoreboard.js": "./dist/src/nhl-scoreboard.js"
-  },
-  "scripts": {
-    "analyze": "cem analyze --litelement",
-    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "build": "tsc && npm run analyze -- --exclude dist",
-    "prepublish": "tsc && npm run analyze -- --exclude dist",
-    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
-    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore"
-  },
-  "dependencies": {
-    "lit": "^2.0.2"
-  },
-  "devDependencies": {
-    "@custom-elements-manifest/analyzer": "^0.4.17",
-    "@open-wc/eslint-config": "^4.3.0",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "@web/dev-server": "^0.1.28",
-    "concurrently": "^5.3.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "prettier": "^2.5.1",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.2"
-  },
-  "customElements": "custom-elements.json",
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "extends": [
-      "@open-wc",
-      "prettier"
-    ],
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "rules": {
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "error"
-      ],
-      "import/no-unresolved": "off",
-      "import/extensions": [
-        "error",
-        "always",
-        {
-          "ignorePackages": true
-        }
-      ]
-    }
-  }
+    "name": "nhl-scoreboard",
+    "description": "WebComponent nhl-scoreboard following open-wc recommendations",
+    "license": "MIT",
+    "author": "nhl-scoreboard",
+    "version": "0.0.0",
+    "main": "dist/src/index.js",
+    "module": "dist/src/index.js",
+    "exports": {
+        ".": "./dist/src/index.js",
+        "./nhl-scoreboard.js": "./dist/src/nhl-scoreboard.js"
+    },
+    "scripts": {
+        "analyze": "cem analyze --litelement",
+        "start": "tsc && npm run build:css && npm run copy:demo && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+        "build": "tsc && npm run build:css && npm run copy:demo && npm run analyze -- --exclude dist",
+        "build:css": "postcss src/styles.ts -r ./dist/styles.js",
+        "copy:demo": "copyfiles index.html dist/",
+        "prepublish": "tsc && npm run analyze -- --exclude dist",
+        "publish": "npm run prepublish && npm run lint && npm run build",
+        "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+        "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore"
+    },
+    "dependencies": {
+        "lit": "^2.0.2"
+    },
+    "devDependencies": {
+        "@custom-elements-manifest/analyzer": "^0.4.17",
+        "@open-wc/eslint-config": "^4.3.0",
+        "@tsconfig/node16": "^1.0.2",
+        "@typescript-eslint/eslint-plugin": "^5.7.0",
+        "@typescript-eslint/parser": "^5.7.0",
+        "@web/dev-server": "^0.1.28",
+        "bootstrap": "^4.6.1",
+        "concurrently": "^5.3.0",
+        "copyfiles": "^2.4.1",
+        "eslint": "^7.32.0",
+        "eslint-config-prettier": "^8.3.0",
+        "postcss": "^8.4.5",
+        "postcss-cli": "^9.1.0",
+        "prettier": "^2.5.1",
+        "tslib": "^2.3.1",
+        "typescript": "^4.5.2"
+    },
+    "customElements": "custom-elements.json"
 }
