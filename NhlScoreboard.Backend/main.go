@@ -28,7 +28,6 @@ func main() {
 
 	var dat configStruct
 	err := json.Unmarshal(plan, &dat)
-	fmt.Println(dat.Boards.Clock.Duration)
 	if err != nil {
 		panic("config file doesn't match schema definition")
 	}
@@ -50,6 +49,8 @@ func postConfig(c *gin.Context) {
 	if err := c.BindJSON(&newConfig); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Incorrectly formatted"})
 	}
+
+	fmt.Println(newConfig)
 
 	c.IndentedJSON(http.StatusCreated, newConfig)
 }
