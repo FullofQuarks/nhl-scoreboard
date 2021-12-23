@@ -1,1 +1,17 @@
-<p>configuration-form works!</p>
+<!--suppress CheckEmptyScriptTag -->
+<form [formGroup]="form">
+    <div class="form-group mb-3">
+        <label for="teamSelect" class="form-label">Select your team</label>
+        <input
+            id="teamSelect"
+            formControlName="team"
+            class="form-control"
+            type="text"
+            [ngbTypeahead]="search"
+            [autofocus]="true"
+            #instance="ngbTypeahead"
+            (selectItem)='itemSelected($event)'
+        />
+    </div>
+    <button type="button" class="btn btn-primary" (click)='saveConfiguration()'>Save config</button>
+</form>

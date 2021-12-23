@@ -5,18 +5,13 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
 import { ConfigurationFormComponent } from './configuration-form/configuration-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MainComponent,
-    ConfigurationFormComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent, MainComponent, ConfigurationFormComponent],
+    imports: [BrowserModule, FormsModule, HttpClientModule, ReactiveFormsModule, NgbTypeaheadModule],
+    providers: [],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -12,4 +12,10 @@ export class ConfigService {
     public getCurrentConfiguration(): Observable<ScoreboardConfig> {
         return this.httpService.get<ScoreboardConfig>('http://localhost:8080/config');
     }
+
+    public saveCurrentConfiguration(newConfig: ScoreboardConfig): Observable<any> {
+        return this.httpService.post<ScoreboardConfig>('http://localhost:8080/config', newConfig, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
 }

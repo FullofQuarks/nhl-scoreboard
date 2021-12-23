@@ -5,24 +5,132 @@ export class ScoreboardConfig {
     preferences: Preferences = new Preferences();
     states: States = new States();
     boards: Boards = new Boards();
+    sbio: SBIO = new SBIO();
+
+    public simpleConfiguration(selectedTeam: string): void {
+        this.debug = false;
+        this.liveMode = false;
+        this.logLevel = 'INFO';
+        this.preferences = {
+            end_of_day: '8:00',
+            goal_animations: {
+                pref_team_only: true
+            },
+            live_game_refresh_rate: 10,
+            location: '',
+            sog_display_frequency: 4,
+            teams: [selectedTeam],
+            time_format: '12h'
+        };
+        this.sbio = {
+            dimmer: {
+                daytime: '',
+                enabled: false,
+                frequency: 5,
+                light_level_lux: 400,
+                mode: 'always',
+                nighttime: '',
+                offset: 0,
+                source: 'software',
+                sunrise_brightness: 40,
+                sunset_brightness: 5
+            },
+            pushbutton: {
+                bonnet: false,
+                display_halt: true,
+                display_reboot: true,
+                enabled: false,
+                pin: 25,
+                poweroff_duration: 10,
+                poweroff_override_process: '',
+                reboot_duration: 2,
+                reboot_override_process: '',
+                state_triggered1: 'weather',
+                state_triggered1_process: ''
+            },
+            screensaver: {
+                animations: true,
+                data_updates: false,
+                delay: 30,
+                enabled: false,
+                motion_sensor: false,
+                pin: 7,
+                start: '22:00',
+                stop: '08:00'
+            }
+        };
+        this.states = {
+            intermission: ['scoreticker', 'team_summary'],
+            off_day: ['team_summary', 'clock'],
+            postGame: ['team_summary', 'scoreticker', 'clock'],
+            scheduled: ['team_summary', 'scoreticker', 'clock']
+        };
+        this.boards = {
+            clock: {
+                clock_rgb: '',
+                date_rgb: '',
+                duration: 15,
+                flash_seconds: true,
+                hide_indicator: false,
+                preferred_team_colors: true
+            },
+            scoreticker: {
+                preferred_teams_only: false,
+                rotation_rate: 5
+            },
+            seriesticker: {
+                preferred_teams_only: true,
+                rotation_rate: 5
+            },
+            standings: {
+                conference: 'eastern',
+                divisions: 'atlantic',
+                preferred_standings_only: true,
+                standing_type: 'division'
+            },
+            weather: {
+                data_feed: 'EC',
+                duration: 60,
+                enabled: false,
+                forecast_days: 3,
+                forecast_enabled: false,
+                forecast_update: 1,
+                owm_apikey: '',
+                show_on_clock: true,
+                units: 'metric',
+                update_freq: 5,
+                view: 'full'
+            },
+            wxalert: {
+                alert_duration: 5,
+                alert_feed: 'EC',
+                alert_title: true,
+                nws_show_expire: false,
+                scroll_alert: true,
+                show_alerts: false,
+                show_on_clock: true,
+                update_freq: 5
+            }
+        };
+    }
 }
 
 class Preferences {
-    timeFormat: string = '';
-    endOfDay: string = '';
+    time_format: string = '';
+    end_of_day: string = '';
     location: string = '';
-    liveGameRefreshRate: number = 0;
+    live_game_refresh_rate: number = 0;
     teams: string[] = [];
-    sogDisplayFrequency: number = 0;
-    goalAnimations: GoalAnimations = new GoalAnimations();
+    sog_display_frequency: number = 0;
+    goal_animations: GoalAnimations = new GoalAnimations();
 }
 
 class GoalAnimations {
-    prefTeamOnly: boolean = false;
+    pref_team_only: boolean = false;
 }
 
 class States {
-    offDay: string[] = [];
+    off_day: string[] = [];
     scheduled: string[] = [];
     postGame: string[] = [];
     intermission: string[] = [];
@@ -38,29 +146,29 @@ class Boards {
 }
 
 class Scoreticker {
-    preferredTeamsOnly: boolean = true;
-    rotationRate: number = 5;
+    preferred_teams_only: boolean = true;
+    rotation_rate: number = 5;
 }
 
 class Seriesticker {
-    preferredTeamsOnly: boolean = true;
-    rotationRate: number = 5;
+    preferred_teams_only: boolean = true;
+    rotation_rate: number = 5;
 }
 
 class Standings {
-    preferredStandingsOnly: boolean = true;
-    standingType: string = '';
+    preferred_standings_only: boolean = true;
+    standing_type: string = '';
     divisions: string = '';
     conference: string = '';
 }
 
 class Clock {
     duration: number = 0;
-    hideIndicator: boolean = false;
-    preferredTeamColors: boolean = true;
-    clockRgb: string = '';
-    dateRgb: string = '';
-    flashSeconds: boolean = false;
+    hide_indicator: boolean = false;
+    preferred_team_colors: boolean = true;
+    clock_rgb: string = '';
+    date_rgb: string = '';
+    flash_seconds: boolean = false;
 }
 
 class Weather {
@@ -68,24 +176,24 @@ class Weather {
     view: string = '';
     units: string = '';
     duration: number = 0;
-    dataFeed: string = '';
-    owmApikey: string = '';
-    updateFreq: number = 0;
-    showOnClock: boolean = false;
-    forecastEnabled: boolean = false;
-    forecastDays: number = 0;
-    forecastUpdate: number = 0;
+    data_feed: string = '';
+    owm_apikey: string = '';
+    update_freq: number = 0;
+    show_on_clock: boolean = false;
+    forecast_enabled: boolean = false;
+    forecast_days: number = 0;
+    forecast_update: number = 0;
 }
 
 class Wxalert {
-    alertFeed: string = '';
-    updateFreq: number = 0;
-    showAlerts: boolean = false;
-    nwsShowExpire: boolean = false;
-    alertTitle: boolean = false;
-    scrollAlert: boolean = false;
-    alertDuration: number = 0;
-    showOnClock: boolean = false;
+    alert_feed: string = '';
+    update_freq: number = 0;
+    show_alerts: boolean = false;
+    nws_show_expire: boolean = false;
+    alert_title: boolean = false;
+    scroll_alert: boolean = false;
+    alert_duration: number = 0;
+    show_on_clock: boolean = false;
 }
 
 class SBIO {
@@ -99,8 +207,8 @@ class Screensaver {
     animations: boolean = false;
     start: string = '';
     stop: string = '';
-    dataUpdates: boolean = false;
-    motionSensor: boolean = false;
+    data_updates: boolean = false;
+    motion_sensor: boolean = false;
     pin: number = 0;
     delay: number = 0;
 }
@@ -112,22 +220,22 @@ class Dimmer {
     nighttime: string = '';
     offset: number = 0;
     frequency: number = 0;
-    lightLevelLux: number = 0;
+    light_level_lux: number = 0;
     mode: string = '';
-    sunsetBrightness: number = 0;
-    sunriseBrightness: number = 0;
+    sunset_brightness: number = 0;
+    sunrise_brightness: number = 0;
 }
 
 class Pushbutton {
     enabled: boolean = false;
     bonnet: boolean = false;
     pin: number = 0;
-    rebootDuration: number = 0;
-    rebootOverrideProcess: string = '';
-    displayReboot: boolean = false;
-    powerOffDuration: number = 0;
-    powerOffOverrideProcess: string = '';
-    displayHalt: boolean = false;
-    stateTriggered1: string = '';
-    stateTriggered1Process: string = '';
+    reboot_duration: number = 0;
+    reboot_override_process: string = '';
+    display_reboot: boolean = false;
+    poweroff_duration: number = 0;
+    poweroff_override_process: string = '';
+    display_halt: boolean = false;
+    state_triggered1: string = '';
+    state_triggered1_process: string = '';
 }
