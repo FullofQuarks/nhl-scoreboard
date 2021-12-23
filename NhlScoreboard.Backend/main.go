@@ -53,5 +53,15 @@ func postConfig(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Incorrectly formatted"})
 	}
 
+	result, marshalError := json.MarshalIndent(&newConfig, "", "    ")
+	if marshalError != nil {
+		panic("Couldn't convert response to JSON")
+	}
+
+	saveErr := ioutil.WriteFile("config.json", result, 0644)
+	if saveErr != nil {
+		panic("Couldn't save file")
+	}
+
 	c.IndentedJSON(http.StatusCreated, newConfig)
 }
