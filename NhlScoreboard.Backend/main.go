@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
@@ -30,7 +31,10 @@ func main() {
 	if err != nil {
 		panic("config file doesn't match schema definition")
 	}
+
 	router := gin.Default()
+	router.Use(cors.Default())
+
 	router.GET("/config", func(context *gin.Context) {
 		context.JSON(http.StatusOK, dat)
 	})
