@@ -23,3 +23,6 @@ storybook-static
 # executables
 /**/*.exe
 /**/ARM64_linux
+
+# cache
+/**/.angular
