@@ -40,7 +40,7 @@ func main() {
 	})
 	router.POST("/config", postConfig)
 
-	runErr := router.Run("localhost:8080")
+	runErr := router.Run("localhost:8081")
 	if runErr != nil {
 		panic("problem running: " + runErr.Error())
 	}

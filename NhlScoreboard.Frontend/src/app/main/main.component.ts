@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../../services/config.service';
 import { ScoreboardConfig } from '../../models/scoreboard-config';
-import { first, tap } from 'rxjs';
+import { first } from 'rxjs';
 import { HockeyTeams } from '../../models/hockey-teams';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-main',
@@ -10,14 +12,18 @@ import { HockeyTeams } from '../../models/hockey-teams';
     styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-    constructor(private configService: ConfigService) {}
+    constructor(private configService: ConfigService, private router: Router, private location: Location) {}
 
     public currentConfiguration!: ScoreboardConfig;
     public hockeyTeams: string[] = HockeyTeams;
+    private domainName: string = '';
 
     ngOnInit(): void {
+        var tmpDomain = document.createElement('a');
+        tmpDomain.href = window.location.href;
+        this.domainName = tmpDomain.hostname;
         this.configService
-            .getCurrentConfiguration()
+            .getCurrentConfiguration(this.domainName)
             .pipe(first())
             .subscribe((c: ScoreboardConfig) => {
                 this.currentConfiguration = c;
@@ -26,6 +32,6 @@ export class MainComponent implements OnInit {
     }
 
     saveConfiguration($event: ScoreboardConfig) {
-        this.configService.saveCurrentConfiguration($event).pipe(first()).subscribe();
+        this.configService.saveCurrentConfiguration(this.domainName, $event).pipe(first()).subscribe();
     }
 }
