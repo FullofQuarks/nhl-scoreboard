@@ -4,9 +4,10 @@
   tasks:
     - name: Check for latest release
       community.general.github_release:
-        repo: NhlScoreboard
+        repo: nhl-scoreboard
         user: FullofQuarks
         action: latest_release
+        token: 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
       register: latest_release
 
     - name: Get current release
@@ -16,9 +17,56 @@
     
     - name: End play if versions are the same
       meta: end_play
-      when: latest_release.latest_release == current_release.version
+      when: latest_release.tag == current_release.tag
+
+    - name: Get latest release info
+      uri:
+        url: "https://api.github.com/repos/FullofQuarks/nhl-scoreboard/releases/latest"
+        method: GET
+        url_username: FullofQuarks
+        url_password: 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
+        force_basic_auth: yes
+        return_content: yes
+        body_format: json
+      register: releases_result
+
+    - name: Print variable
+      debug:
+        msg: "{{ item['browser_download_url'] }}"
+      loop: "{{ releases_result['json']['assets'] }}"
+
+    - name: Download Files
+      uri:
+        method: GET
+        url: "{{ item['browser_download_url'] }}"
+        url_username: FullofQuarks
+        url_password: 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
+        force_basic_auth: yes
+        dest: "/home/nick/release/{{ item['name'] }}"
+      loop: "{{ releases_result['json']['assets'] }}"
+
+    - name: Copy backend
+      copy:
+        src: /home/pi/release/NhlScoreboard.Backend
+        dest: /home/pi/source/NhlScoreboard.Backend/NhlScoreboard.Backend
+        mode: 0755
+
+    - name: Restart backend
+      systemd:
+        name: nhl-scoreboard
+        status: restarted
+
+    - name: Delete current frontend files
+      file:
+        path: /var/www/html/
+        state: absent
+
+    - name: Unarchive frontend files
+      unarchive:
+        src: /home/pi/release/frontend.tar.gz
+        dest: /var/www/html/
 
     - name: Copy new version
       copy:
-        content: "{{ latest_release.latest_release | to_nice_yaml }}"
+        content: "{{ latest_release | to_nice_yaml }}"
         dest: current_release.yaml
