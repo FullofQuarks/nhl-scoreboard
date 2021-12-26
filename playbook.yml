@@ -1,0 +1,24 @@
+name: Automatically update
+hosts: localhost
+gather_facts: false
+tasks:
+  - name: Check for latest release
+    community.general.github_release:
+      repo: NhlScoreboard
+      user: FullofQuarks
+      action: latest_release
+      register: latest_release
+
+  - name: Get current release
+    include_vars:
+      file: current_release.yaml
+      name: current_release
+  
+  - name: End play if versions are the same
+    meta: end_play
+    when: latest_release.latest_release == current_release.version
+
+  - name: Copy new version
+    copy:
+      content: "{{ latest_release.latest_release | to_nice_yaml }}"
+      dest: current_release.yaml
