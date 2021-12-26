@@ -1,7 +1,7 @@
 export class ScoreboardConfig {
     debug: boolean = false;
-    logLevel: string = '';
-    liveMode: boolean = false;
+    loglevel: string = '';
+    live_mode: boolean = false;
     preferences: Preferences = new Preferences();
     states: States = new States();
     boards: Boards = new Boards();
@@ -9,8 +9,8 @@ export class ScoreboardConfig {
 
     public simpleConfiguration(selectedTeam: string): void {
         this.debug = false;
-        this.liveMode = false;
-        this.logLevel = 'INFO';
+        this.live_mode = false;
+        this.loglevel = 'INFO';
         this.preferences = {
             end_of_day: '8:00',
             goal_animations: {

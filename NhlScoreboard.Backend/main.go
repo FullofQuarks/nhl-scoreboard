@@ -12,8 +12,8 @@ import (
 
 type configStruct struct {
 	Debug       bool               `json:"debug"`
-	LogLevel    string             `json:"logLevel"`
-	LiveMode    bool               `json:"liveMode"`
+	LogLevel    string             `json:"loglevel"`
+	LiveMode    bool               `json:"live_mode"`
 	Preferences config.Preferences `json:"preferences"`
 	States      config.States      `json:"states"`
 	Boards      config.Boards      `json:"boards"`
@@ -40,7 +40,7 @@ func main() {
 	})
 	router.POST("/config", postConfig)
 
-	runErr := router.Run("localhost:8081")
+	runErr := router.Run("localhost:8080")
 	if runErr != nil {
 		panic("problem running: " + runErr.Error())
 	}
