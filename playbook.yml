@@ -7,7 +7,7 @@
         repo: NhlScoreboard
         user: FullofQuarks
         action: latest_release
-        register: latest_release
+      register: latest_release
 
     - name: Get current release
       include_vars:
